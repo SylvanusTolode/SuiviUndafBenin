@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:choixProd="http://java.sun.com/jsf/composite/model/cc"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="row" required="true"/>
+        <cc:attribute  name="action" method-signature="void f1()"/>
+        <cc:attribute name="update" required="true"/>
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <!--Aujourd'hui nous sommes le :<br/><br/>-->
+        <center><blockquote><u><h4>
+                        <p:clock pattern="dd-MM-yyyy HH:mm:ss" mode="server" /> </h4></u></blockquote></center>
+
+
+
+        <h:panelGrid columns="3" cellpadding="5" id="zz"  > 
+          
+
+            <h:form id="te">
+                <p:panel id="panel" header="Client">
+
+                    <p:messages id="msgs" />
+
+
+                    <h:panelGrid   columns="3" >
+
+                        <h:outputText value="Client: " /> 
+                        <p:autoComplete scrollHeight="100" dropdown="true"
+                                        id="id-ac1"
+                                        value="#{clientController.clientSelection}"
+                                        completeMethod="#{clientController.suggestionSurNomDeFamille}"
+                                        var="client"
+                                        itemLabel="#{client}"
+                                        itemValue="#{client}"
+                                        converter="convertisseurGenerique"
+                                        minQueryLength="2"
+                                        size="16"
+                                        title="Bien vouloir commencer pas saisir le nom du client SVP">
+                        </p:autoComplete>
+                        <p:spacer width="100"/>
+                        <p:commandButton
+                            icon="ui-icon icon-add"
+
+                            action="#{clientController.nullAction}"
+                            oncomplete="PF('expansionUtilisateurDlg').show();">
+                            <!--<f:setPropertyActionListener target="#{utilisateurController.toggledRow}" value="#{fiche}"/>-->
+                        </p:commandButton>
+
+
+                        <p:commandButton
+                            value="+"
+                            action="#{clientController.nullAction}"
+                            onclick="PF('expansionUtilisateurDlg').show();">
+                        </p:commandButton>
+                       
+
+
+
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+         
+            <h:panelGroup id="utilisateur-expansion-pnl">
+                <p:dialog
+                    id="dlg-expansion-utilisateur"
+                    modal="false"
+                    showEffect="explode"
+                    hideEffect="bounce"
+                    closable="true" closeOnEscape="true"
+                    widgetVar="expansionUtilisateurDlg"
+                    resizable="true"
+                    header="#{bundle.utilisateur}"
+                    width="#{bundle.detailDialogW}"
+                    height="#{bundle.detailDialogH}">
+                    <!--<p:ajax event="close" update=":f-dataTable:id-dataTable :utilisateur-expansion-pnl"/>-->
+                    <h:form id="f-expansion-utilisateur" prependId="false" enctype="multipart/form-data">
+                        <p:messages id="msg-expansion-utilisateur" showDetail="true" showSummary="false" autoUpdate="false" closable="true" redisplay="false"/>
+
+                        <choixProd:choixProduitModelCC
+                            id="f-client"
+                            update=""
+                            row="#{organeController.nouvelleFiche}"
+                            action="#{organeController.sauvegarderNouvelleFicheAction()}"
+                            />
+
+                        <p/>
+                        <center>
+                            <!--:form_client:dataTable_organe :form_organe:msg_organe-->
+                        </center>
+                    </h:form>
+                </p:dialog>
+            </h:panelGroup>
+
+
+
+
+
+
+            <!--<p:growl id="msg_list" showDetail="true"/>-->  
+            <!--<h:form >-->
+            <p:panel  id="nomListe">  
+
+
+
+
+
+
+
+                <p:dataTable id="listVent" var="occur" value="#{produitControlleur.getTousLesProduits()}" 
+                             class="ui-grid ui-grid-responsive"
+                             editable="true"
+                             editMode="cell"
+                             selection="#{produitControlleur.ficheselect}"
+                             rowKey="#{occur.id}" style="margin-bottom:0"
+                             emptyMessage="Aucun Enregistrement SVP"
+                             paginator="true" rows="10"  
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                             rowsPerPageTemplate="10,15">
+
+
+                    <p:ajax event="rowToggle" listener="#{tableBean.onRowToggle}"  />  
+                    <p:ajax event="rowToggle" listener="#{cc.attrs.controller.onToggleEvent}" />
+                    <f:facet name="header">  
+                        Liste des produits à Vendre
+
+                        <h:panelGrid columns="1" cellpadding="5">
+                            <p:commandButton value="---Faites le Choix des Produits ici---" type="button" onclick="PF('dlg3').show();" />
+                        </h:panelGrid>
+
+                        <p:dialog header="Effects" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" width="600">
+                            <p:dataTable id="listProd" var="occur" value="#{produitControlleur.getTousLesProduits()}" 
+                                         class="ui-grid ui-grid-responsive"
+                                         editable="true"
+                                         selection="#{produitControlleur.ficheselect}"
+                                         rowKey="#{occur.id}" style="margin-bottom:0"
+                                         emptyMessage="Aucun Enregistrement SVP"
+                                         paginator="true" rows="10"  
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                         rowsPerPageTemplate="10,15">
+
+
+
+
+                                <!--<p:ajax event="rowToggle" listener="#{tableBean.onRowToggle}"  />-->  
+                                <f:facet name="header">  
+                                    Liste des Produits
+                                </f:facet>  
+
+
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+
+                                <p:column style="width:49%" sortBy="occur.id" filterBy="#{occur.id}" >  
+                                    <f:facet name="header">  
+                                        Code  
+                                    </f:facet>  
+                                    <h:outputText value="#{occur.id}" />  
+                                </p:column>  
+
+                                <p:column style="width:49%" sortBy="occur.libelle" filterBy="#{occur.libelle}">  
+                                    <f:facet name="header">  
+                                        Libelle  
+                                    </f:facet>  
+                                    <h:outputText value="#{occur.libelle}" />  
+                                </p:column> 
+
+
+
+                                <f:facet name="footer">
+                                    <p:commandButton  update="form_organe:f-client:listVent:test" process="listProd" icon="ui-icon-search" value="Valider" oncomplete="PF('multiCarDialog').show()" />
+                                </f:facet>
+                                <!--update=":form:multiCarDetail"-->
+
+
+
+                            </p:dataTable>
+
+                            <p:dialog  id="test" header="Selected Cars" widgetVar="multiCarDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false" width="200">
+                                <p:outputPanel id="multiCarDetail" style="text-align:center;">
+                                    <ui:repeat value="#{produitControlleur.ficheselect}" var="occ">
+                                        <h:outputText value="#{occ.id} - #{occ.libelle}" style="display:block"/>
+                                    </ui:repeat>
+                                </p:outputPanel>
+                            </p:dialog>
+
+
+
+
+
+
+                        </p:dialog>
+
+
+                    </f:facet>  
+
+
+
+
+
+
+                    <p:column style="width:49%" sortBy="occur.id" filterBy="#{occur.id}" >  
+                        <f:facet name="header">  
+                            Code  
+                        </f:facet>  
+                        <h:outputText value="#{occur.id}" />  
+                    </p:column>  
+
+                    <p:column style="width:49%" sortBy="occur.libelle" filterBy="#{occur.libelle}">  
+                        <f:facet name="header">  
+                            Libelle  
+                        </f:facet>  
+                        <h:outputText value="#{occur.libelle}" />  
+                    </p:column> 
+
+
+
+                    <p:column style="width:49%"   headerText="Quantité">  
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="0" /></f:facet>
+                            <f:facet name="input"><p:inputText id="modelInput" value="#{occur.id}" style="width:96%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+
+                    <f:facet name="footer">
+
+
+
+                    </f:facet>
+
+
+                </p:dataTable>  
+
+
+
+
+
+
+
+
+            </p:panel>
+            <!--</h:form>-->
+        </h:panelGrid>
+
+
+
+    </cc:implementation>
+</html>
+
+

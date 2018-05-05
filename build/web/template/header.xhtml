@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+
+        <h:form>    
+            <p:growl id="messages" showDetail="true" />
+
+            <p:toolbar >
+                <f:facet name="left">
+                    <!--                    <p:commandButton type="button" value="New" icon="ui-icon-document" />
+                    
+                                        <p:commandButton type="button" value="Open" icon="ui-icon-folder-open" />
+                    
+                                        <span class="ui-separator">
+                                            <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                        </span>
+                    
+                                        <p:commandButton type="button" title="Save" icon="ui-icon-disk" />
+                                        <p:commandButton type="button" title="Delete" icon="ui-icon-trash" />
+                                        <p:commandButton type="button" title="Print" icon="ui-icon-print" />-->
+
+
+
+<!--
+                    <p:dock position="bottom">
+                        <p:menuitem value="Home" icon="/resources/demo/images/dock/home.png" url="#"/>
+                        <p:menuitem value="Music" icon="/resources/demo/images/dock/music.png" url="#"/>
+                        <p:menuitem value="Home" icon="/resources/demo/images/dock/home.png" url="#"/>
+                        <p:menuitem value="Music" icon="/resources/demo/images/dock/music.png" url="#"/>
+                        <p:menuitem value="Home" icon="/resources/demo/images/dock/home.png" url="#"/>
+                        <p:menuitem value="Music" icon="/resources/demo/images/dock/music.png" url="#"/>
+                         more menuitems 
+                    </p:dock>-->
+
+
+
+
+                    <p:menuButton value="Param�tres">
+                        <p:menuitem value="Client" actionListener="#{toolbarView.save}" update="messages" icon="ui-icon-disk" />
+                        <p:menuitem value="Produit" actionListener="#{toolbarView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
+
+                    </p:menuButton>
+
+                    <p:menuButton value="Op�rations">
+                        <p:menuitem value="Achat" actionListener="#{toolbarView.save}" update="messages" icon="ui-icon-disk" />
+                        <p:menuitem value="Vente" actionListener="#{toolbarView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
+                    </p:menuButton>
+
+                    <p:menuButton value="Etats">
+                        <p:menuitem value="Produits" actionListener="#{toolbarView.save}" update="messages" icon="ui-icon-disk" />
+                        <p:menuitem value="Familles de Produits" actionListener="#{toolbarView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
+                        <p:menuitem value="Client" actionListener="#{toolbarView.delete}" ajax="false" icon="ui-icon-close" />
+                    </p:menuButton>
+                </f:facet>
+
+                <f:facet name="right">
+                    <p:menuButton value="Connexion">
+                        <p:menuitem value="D�connexion" actionListener="#{toolbarView.save}" update="messages" icon="ui-icon-disk" />
+<!--                        <p:menuitem value="Update" actionListener="#{toolbarView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
+                        <p:menuitem value="Delete" actionListener="#{toolbarView.delete}" ajax="false" icon="ui-icon-close" />-->
+                        <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink" />
+                    </p:menuButton>
+                </f:facet>
+
+            </p:toolbar>
+        </h:form>
+
+    </ui:composition>
+
+</html>

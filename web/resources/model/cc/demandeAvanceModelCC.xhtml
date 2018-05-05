@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="row" required="true"/>
+        <cc:attribute  name="action" method-signature="void f1()"/>
+        <cc:attribute name="update" required="true"/>
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        
+            
+
+           
+
+        <div class="form-group ">
+            <label for="exampleInputEmail1" class="col-sm-2 control-label">#{bundle.entite}  : </label>
+            <div class="col-sm-10">
+                <p:selectOneMenu
+                    id="cleRep"
+                    required="true"
+                    var="reC"
+                    requiredMessage="Vous devez choisir une entité."
+                    converter="convertisseurGenerique"
+                    converterMessage="Echec de la conversion"
+                    maxlength="40"
+                    value="#{cc.attrs.row.etablissement}"
+                    
+                    >
+                    <f:selectItem itemLabel="--- Sélectionner un organe ---" itemValue="" />
+                    <f:selectItems var="org" value="#{organeController.tousLesOrganes}" itemValue="#{org.id}" itemLabel="#{org.libelle}" />
+                    <!--<p:ajax update="avoir"/>-->  
+                    <p:column>#{reC.id}</p:column>
+                    <p:column>#{reC.libelle}</p:column>
+                </p:selectOneMenu>
+            </div>
+        </div>
+        <div class="form-group ">
+                <label for="" class="col-sm-2 control-label">Montant après rétrocession : </label>
+                <div class="col-sm-10">
+                    <h:outputText value="#{statistiqueController.montantApresRetocession['Etablissements']}"/>
+                </div>
+            </div>
+         <div class="form-group ">
+                <label for="" class="col-sm-2 control-label">Au : </label>
+                <div class="col-sm-10">
+             
+                </div>
+            </div>
+            <div class="col-sm-offset-2 col-sm-10">
+                <p:commandButton value="Visualiser les avances" update="#{cc.attrs.update} "  action="#{cc.attrs.action}"  styleClass="btn btn-success"/>
+            </div>
+
+        
+    </cc:implementation>
+</html>

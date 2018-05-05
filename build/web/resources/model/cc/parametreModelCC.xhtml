@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="row" required="true"/>
+        <cc:attribute  name="action" method-signature="void f1()"/>
+        <cc:attribute name="update" required="true"/>
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:outputStylesheet name="css/font-awesome.css" />
+        <h:outputStylesheet name="bootstrap/css/bootstrap.css" />
+        <h:outputStylesheet name="css/dashboard.css" />
+
+        <h:outputScript name="js/jquery.min.js" />
+        <h:outputScript name="bootstrap/js/bootstrap.js" />
+
+
+
+        <br/><br/>
+
+        <div class="form-group ">
+            <label for="exampleInputEmail1" class="col-sm-offset-0 col-sm-6 control-label">#{bundle.anneeReference}  : </label>
+
+            <div class="col-sm-offset-0 col-sm-5">
+                <p:selectOneMenu
+                    id="anneereference"
+                    required="true"
+                    requiredMessage="Vous devez faire un choix."
+                    converter="convertisseurGenerique"
+                    converterMessage="Echec de la conversion"
+                    value="#{cc.attrs.row.anacRef}"
+                    var="anac"
+                    >
+                    <f:selectItem itemLabel="--- Faites un choix ---" itemValue="" />
+                    <f:selectItems value="#{anneeAcademiqueController.toutesLesAnneesAcademiques}"  var="fiche"
+                                   itemLabel="[  #{fiche.id}  ]" itemValue="#{fiche}"/>
+                    <p:column>#{anac.id}</p:column>
+                    <p:column>
+                        <h:outputText value="#{anac.dateDebut}">
+                            <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{anac.dateFin}">
+                            <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                </p:selectOneMenu>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+            <label for="exampleInputPassword1" class="col-sm-offset-0 col-sm-6 control-label" >Frais visite m�dicale : </label>
+            <div class="col-sm-5 col-sm-offset-0"><input type="number" jsf:id="frais" class="form-control" jsf:requiredMessage="Les frais de viste m�dicale sont obligatoires" jsf:required="true"  jsf:value="#{cc.attrs.row.fraisVisiteMedicale}"  placeholder="Frais visite m�dicale ...."/></div>
+        </div>
+
+
+
+        <div class="col-sm-offset-8 col-sm-8">
+            <p:commandButton value="Enregistrer" update="#{cc.attrs.update} anneereference frais  "  action="#{cc.attrs.action}"  styleClass="btn btn-primary"/>
+        </div>
+
+
+    </cc:implementation>
+</html>

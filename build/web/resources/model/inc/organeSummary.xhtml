@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+    <p:column headerText="Code de l'Organe" filterBy="#{var.id}" sortBy="#{var.id}">
+        <h:outputText value="#{var.id}" />
+    </p:column>
+
+    <p:column headerText="Libellé de l'Organe" filterBy="#{var.libelle}" sortBy="#{var.libelle}">
+        <h:outputText value="#{var.libelle}"/>
+    </p:column>
+
+
+</ui:composition>
+

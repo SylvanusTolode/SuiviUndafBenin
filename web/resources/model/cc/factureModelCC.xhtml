@@ -1,0 +1,877 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:anAc="http://java.sun.com/jsf/composite/model/cc"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="row" required="true"/>
+        <cc:attribute  name="action" method-signature="void f1()"/>
+        <cc:attribute name="update" required="true"/>
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <!--Aujourd'hui nous sommes le :<br/><br/>-->
+        <center><blockquote><u><h4>
+                        <p:clock pattern="dd-MM-yyyy HH:mm:ss" mode="server" /> </h4></u></blockquote></center>
+
+
+
+        <h:panelGrid columns="3" cellpadding="5" id="zz"  > 
+            <!--            <h:form id="nomnclature">
+                            <p:panel header="Test" id="nomen" class="ui-grid ui-grid-responsive">  
+                                <p:focus context="nomen"/>  
+                                <p:messages />  
+                                <h:panelGrid columns="3" cellpadding="5">  
+            
+                                    <h:outputText value="Code : " />  
+                                    <p:inputText value="#{cc.attrs.row.id}"   
+                                                 required="true"
+                                                 id="code"
+                                                 requiredMessage="Le Code est obligatoire"/>  
+                                    <p:message for="code" />  
+            
+            
+                                    <h:outputText value="Libelle" />  
+                                    <p:inputText value="#{cc.attrs.row.libelle}"
+                                                 id="lib"
+                                                 required ="true"
+                                                 requiredMessage="Le libelle est obligatoire"/>
+                                    <p:message for="lib" />  
+            
+            
+                                    <p:commandButton value="Enregistrer" update="nomen "   action="#{cc.attrs.action}"/> 
+                                    nomListe
+                                    <p:commandButton value="Annuler" type="reset" />  
+                                </h:panelGrid>  
+                            </p:panel>  
+                        </h:form>-->
+
+
+
+            <h:form id="te">
+                <p:panel id="panel" header="Client">
+
+                    <p:messages id="msgs" />
+
+
+                    <h:panelGrid   columns="3" >
+
+                        <h:outputText value="Client: " /> 
+                        <p:autoComplete scrollHeight="100" dropdown="true"
+                                        id="id-ac1"
+                                        value="#{clientController.clientSelection}"
+                                        completeMethod="#{clientController.suggestionSurNomDeFamille}"
+                                        var="client"
+                                        itemLabel="#{client}"
+                                        itemValue="#{client}"
+                                        converter="convertisseurGenerique"
+                                        minQueryLength="2"
+                                        size="16"
+                                        title="Bien vouloir commencer pas saisir le nom du client SVP">
+                        </p:autoComplete>
+                        <p:spacer width="100"/>
+                        <p:commandButton
+                            icon="ui-icon icon-add"
+
+                            action="#{clientController.nullAction}"
+                            oncomplete="PF('expansionUtilisateurDlg').show();">
+                            <!--<f:setPropertyActionListener target="#{utilisateurController.toggledRow}" value="#{fiche}"/>-->
+                        </p:commandButton>
+
+
+                        <p:commandButton
+                            value="+"
+                            action="#{clientController.nullAction}"
+                            onclick="PF('expansionUtilisateurDlg').show();">
+                        </p:commandButton>
+                        <!--update=":form_organe:f-client:utilisateur-expansion-pnl"-->
+<!--<f:setPropertyActionListener target="#{clientColtroller.toggledRow}" value="#{item}" />-->
+
+
+
+                        <!--                        <h:panelGrid columns="1" cellpadding="5">
+                                                    <p:commandButton value="Basic" type="button" onclick="PF('dlg1').show();" />
+                        
+                                                    <p:commandButton value="Modal" type="button" onclick="PF('dlg2').show();" />
+                        
+                                                    <p:commandButton value="Effects" type="button" onclick="PF('dlg3').show();" />
+                                                </h:panelGrid>
+                        
+                                                <p:dialog header="Basic Dialog" widgetVar="dlg1" minHeight="40">
+                                                    <h:outputText value="Resistance to PrimeFaces is futile!" />
+                                                </p:dialog>
+                        
+                                                <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
+                                                    <h:outputText value="This is a Modal Dialog." />
+                                                </p:dialog>  
+                        
+                                                <p:dialog header="Effects" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="100">
+                                                    <h:outputText value="This dialog has nice effects." />
+                                                </p:dialog>-->
+
+
+
+
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+            <!--update=":form_organe:f-client:utilisateur-expansion-pnl"-->
+
+            <!--hideEffect="clip"-->
+
+            <h:panelGroup id="utilisateur-expansion-pnl">
+                <p:dialog
+                    id="dlg-expansion-utilisateur"
+                    modal="false"
+                    showEffect="explode"
+                    hideEffect="bounce"
+                    closable="true" closeOnEscape="true"
+                    widgetVar="expansionUtilisateurDlg"
+                    resizable="true"
+                    header="#{bundle.utilisateur}"
+                    width="#{bundle.detailDialogW}"
+                    height="#{bundle.detailDialogH}">
+                    <!--<p:ajax event="close" update=":f-dataTable:id-dataTable :utilisateur-expansion-pnl"/>-->
+                    <h:form id="f-expansion-utilisateur" prependId="false" enctype="multipart/form-data">
+                        <p:messages id="msg-expansion-utilisateur" showDetail="true" showSummary="false" autoUpdate="false" closable="true" redisplay="false"/>
+
+                        <anAc:clientModelCC
+                            id="f-client"
+                            update=""
+                            row="#{organeController.nouvelleFiche}"
+                            action="#{organeController.sauvegarderNouvelleFicheAction()}"
+                            />
+
+                        <p/>
+                        <center>
+                            <!--:form_client:dataTable_organe :form_organe:msg_organe-->
+                        </center>
+                    </h:form>
+                </p:dialog>
+            </h:panelGroup>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!--<p:growl id="msg_list" showDetail="true"/>-->  
+            <!--<h:form >-->
+            <p:panel  id="nomListe">  
+
+
+
+
+
+
+
+                <p:dataTable id="listVent" var="occur" value="#{produitControlleur.getTousLesProduits()}" 
+                             class="ui-grid ui-grid-responsive"
+                             editable="true"
+                             editMode="cell"
+                             selection="#{produitControlleur.ficheselect}"
+                             rowKey="#{occur.id}" style="margin-bottom:0"
+                             emptyMessage="Aucun Enregistrement SVP"
+                             paginator="true" rows="10"  
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                             rowsPerPageTemplate="10,15">
+
+
+                    <p:ajax event="rowToggle" listener="#{tableBean.onRowToggle}"  />  
+                    <p:ajax event="rowToggle" listener="#{cc.attrs.controller.onToggleEvent}" />
+                    <f:facet name="header">  
+                        Liste des produits à Vendre
+
+                        <h:panelGrid columns="1" cellpadding="5">
+                            <p:commandButton value="---Faites le Choix des Produits ici---" type="button" onclick="PF('dlg3').show();" />
+                        </h:panelGrid>
+
+                        <p:dialog header="Effects" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" width="600">
+                            <p:dataTable id="listProd" var="occur" value="#{produitControlleur.getTousLesProduits()}" 
+                                         class="ui-grid ui-grid-responsive"
+                                         editable="true"
+                                         selection="#{produitControlleur.ficheselect}"
+                                         rowKey="#{occur.id}" style="margin-bottom:0"
+                                         emptyMessage="Aucun Enregistrement SVP"
+                                         paginator="true" rows="10"  
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                         rowsPerPageTemplate="10,15">
+
+
+
+
+                                <!--<p:ajax event="rowToggle" listener="#{tableBean.onRowToggle}"  />-->  
+                                <f:facet name="header">  
+                                    Liste des Produits
+                                </f:facet>  
+
+
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+
+
+
+                                <p:column style="width:49%" sortBy="occur.id" filterBy="#{occur.id}" >  
+                                    <f:facet name="header">  
+                                        Code  
+                                    </f:facet>  
+                                    <h:outputText value="#{occur.id}" />  
+                                </p:column>  
+
+                                <p:column style="width:49%" sortBy="occur.libelle" filterBy="#{occur.libelle}">  
+                                    <f:facet name="header">  
+                                        Libelle  
+                                    </f:facet>  
+                                    <h:outputText value="#{occur.libelle}" />  
+                                </p:column> 
+
+
+
+                                <f:facet name="footer">
+                                    <p:commandButton process="listProd" icon="ui-icon-search" value="Valider" oncomplete="PF('multiCarDialog').show()" />
+                                </f:facet>
+                                <!--update=":form:multiCarDetail"-->
+
+
+
+                            </p:dataTable>
+
+                            <p:dialog header="Selected Cars" widgetVar="multiCarDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false" width="200">
+                                <p:outputPanel id="multiCarDetail" style="text-align:center;">
+                                    <ui:repeat value="#{produitControlleur.ficheselect}" var="occ">
+                                        <h:outputText value="#{occ.id} - #{occ.libelle}" style="display:block"/>
+                                    </ui:repeat>
+                                </p:outputPanel>
+                            </p:dialog>
+
+
+
+
+
+
+                        </p:dialog>
+
+
+                    </f:facet>  
+
+
+
+
+                    <!--                    <p:column headerText="Opérations" exportable="false" style="width:49%"   >
+                                            <p:spacer width="5"/>
+                                            <p:tooltip for="editB" value="Modifier"/>
+                                            <p:tooltip for="deleteB" value="Supprimer"/>
+                                            <p:tooltip for="profilB" value="Profil"/>
+                    
+                    
+                                            <p:commandLink    
+                                                id="profilB"
+                                                process="@this"
+                                                action="#{organeController.goProfil()}"
+                                                >
+                                                <f:setPropertyActionListener value="#{fiche}" target="#{organeController.nouvelleFiche}"/>
+                                                <p:graphicImage  library="images" name="edit.gif" />
+                                            </p:commandLink>
+                                            <p:spacer width="10"/>
+                                            <p:commandLink 
+                                                id="editB"
+                                                process="@this"
+                    
+                                                action="#{clientController.action()}">
+                    
+                                                <f:setPropertyActionListener value="#{fiche}" target="#{clientController.nouvelleFiche}"/>
+                                                <p:graphicImage  library="images" name="refresh.png" />
+                                            </p:commandLink>
+                    
+                    
+                    
+                                            <p:spacer width="10"/>
+                                            <p:commandLink    
+                                                id="deleteB"
+                                                process="@this"
+                                                action="#{organeController.delete(organeController.nouvelleFiche)}"
+                                                >
+                                                <f:setPropertyActionListener value="#{fiche}" target="#{organeController.nouvelleFiche}"/>
+                                                <p:graphicImage  library="images" name="delete.gif" />
+                                            </p:commandLink>
+                                            <p:spacer width="5"/>
+                                        </p:column>
+                    -->
+
+
+                    <p:column style="width:49%" sortBy="occur.id" filterBy="#{occur.id}" >  
+                        <f:facet name="header">  
+                            Code  
+                        </f:facet>  
+                        <h:outputText value="#{occur.id}" />  
+                    </p:column>  
+
+                    <p:column style="width:49%" sortBy="occur.libelle" filterBy="#{occur.libelle}">  
+                        <f:facet name="header">  
+                            Libelle  
+                        </f:facet>  
+                        <h:outputText value="#{occur.libelle}" />  
+                    </p:column> 
+
+
+
+                    <p:column style="width:49%"   headerText="Quantité">  
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="0" /></f:facet>
+                            <f:facet name="input"><p:inputText id="modelInput" value="#{occur.id}" style="width:96%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+
+
+                    <f:facet name="footer">
+
+
+
+                    </f:facet>
+
+
+                </p:dataTable>  
+
+
+
+
+
+<!--                <p:dataTable id="liste" var="occur" value="#{clientController.tousLesclients}" 
+             class="ui-grid ui-grid-responsive"
+             editable="true"
+             emptyMessage="Aucun Enregistrement SVP"
+             paginator="true" rows="5"  
+             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+             rowsPerPageTemplate="5,10,15">
+
+
+    <p:ajax event="rowToggle" listener="#{tableBean.onRowToggle}"  />  
+    <p:ajax event="rowToggle" listener="#{cc.attrs.controller.onToggleEvent}" />
+    <f:facet name="header">  
+        Liste des Clients
+    </f:facet>  
+
+
+
+
+    <p:column headerText="Opérations" exportable="false" style="width:49%"   >
+        <p:spacer width="5"/>
+        <p:tooltip for="editB" value="Modifier"/>
+        <p:tooltip for="deleteB" value="Supprimer"/>
+        <p:tooltip for="profilB" value="Profil"/>
+
+
+        <p:commandLink    
+            id="profilB"
+            process="@this"
+            action="#{organeController.goProfil()}"
+            >
+            <f:setPropertyActionListener value="#{fiche}" target="#{organeController.nouvelleFiche}"/>
+            <p:graphicImage  library="images" name="edit.gif" />
+        </p:commandLink>
+        <p:spacer width="10"/>
+        <p:commandLink 
+            id="editB"
+            process="@this"
+
+            action="#{clientController.action()}">
+
+            <f:setPropertyActionListener value="#{fiche}" target="#{clientController.nouvelleFiche}"/>
+            <p:graphicImage  library="images" name="refresh.png" />
+        </p:commandLink>
+
+
+
+        <p:spacer width="10"/>
+        <p:commandLink    
+            id="deleteB"
+            process="@this"
+            action="#{organeController.delete(organeController.nouvelleFiche)}"
+            >
+            <f:setPropertyActionListener value="#{fiche}" target="#{organeController.nouvelleFiche}"/>
+            <p:graphicImage  library="images" name="delete.gif" />
+        </p:commandLink>
+        <p:spacer width="5"/>
+    </p:column>
+
+
+
+    <p:column style="width:49%" sortBy="occur.nom" filterBy="#{occur.nom}" >  
+        <f:facet name="header">  
+            Nom  
+        </f:facet>  
+        <h:outputText value="#{occur.nom}" />  
+    </p:column>  
+
+    <p:column style="width:49%" sortBy="occur.prenom" filterBy="#{occur.prenom}">  
+        <f:facet name="header">  
+            Prénoms  
+        </f:facet>  
+        <h:outputText value="#{occur.prenom}" />  
+    </p:column> 
+
+    <p:column style="width:49%" sortBy="occur.email" filterBy="#{occur.email}">  
+        <f:facet name="header">  
+            Email  
+        </f:facet>  
+        <h:outputText value="#{occur.email}" />  
+    </p:column> 
+
+
+    <p:column style="width:49%" sortBy="occur.telephoe" filterBy="#{occur.telephone}">  
+        <f:facet name="header">  
+            Téléphone  
+        </f:facet>  
+        <h:outputText value="#{occur.telephone}" />  
+    </p:column> 
+
+
+
+    <f:facet name="footer">
+        <h:commandLink value="Exporter en Excel">
+            <p:graphicImage  library="images" name="excel.png" />
+            <p:dataExporter type="xls" target="dataTable_organe" fileName="organe" pageOnly="false" postProcessor="#{organeController.postProcessXLS}"/>
+        </h:commandLink>
+
+
+    </f:facet>
+
+
+</p:dataTable>  -->
+
+
+
+            </p:panel>
+            <!--</h:form>-->
+        </h:panelGrid>
+
+
+
+    </cc:implementation>
+</html>
+
+
+
+<!--update=":form_organe:f-organe:code :form_organe:f-organe:libelle"-->
+
+
+
+
+
+
+<!--<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+     INTERFACE 
+    <cc:interface>
+        <cc:attribute name="row" required="true"/>
+        <cc:attribute  name="action" method-signature="void f1()"/>
+        <cc:attribute name="update" required="true"/>
+
+    </cc:interface>
+
+     IMPLEMENTATION 
+    <cc:implementation>
+
+        <center><blockquote><u><h4> Nous sommes le :<br/><br/>
+                        <p:clock pattern="dd-MM-yyyy HH:mm:ss" mode="server" /> </h4></u></blockquote></center>
+
+
+
+
+        <h:panelGrid columns="5" cellpadding="5" id="pan-client"  > 
+
+
+            <h:form  id="form_cli">
+
+                <p:panel header="Informations relatives aux Clients" id="pan_client" class="ui-grid ui-grid-responsive">  
+                    <p:focus context="pan_client"/>  
+                    <p:messages id="messages" /> 
+
+                    <h:panelGrid columns="3" cellpadding="5">  
+
+
+                        <h:outputText value="Nom : " />  
+                        <p:inputText value="#{clientController.nouvelleFiche.nom}"   
+                                     required="true"
+                                     id="nom"
+                                     placeholder="Nom"
+                                     requiredMessage="Le Nom est obligatoire">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+                        <h:outputText value="#{clientController.nouvelleFiche.nom}" /> 
+
+
+
+
+
+
+
+
+                        <h:outputText value="Prénoms : " />  
+                        <p:inputText value="#{clientController.nouvelleFiche.prenom}"   
+                                     required="true"
+                                     id="prenom"
+                                     placeholder="Prénoms"
+                                     requiredMessage="Le ou les Prénoms sont obligatoires">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+                        <h:outputText value="#{clientController.nouvelleFiche.prenom}" /> 
+
+
+                        <h:outputText value="Adresse : " />  
+                        <p:inputText value="#{clientController.nouvelleFiche.email}"   
+                                     required="true"
+                                     id="adresse"
+                                     placeholder="Adresse"
+                                     requiredMessage="L'Adresse est obligatoire">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+                        <h:outputText value="#{clientController.nouvelleFiche.email}" /> 
+
+
+                        <h:outputText value="Email : " />  
+                        <p:inputText value="#{clientController.nouvelleFiche.adresse}"   
+                                     required="true"
+                                     id="email"
+                                     placeholder="Email"
+                                     requiredMessage="L'Email est obligatoire">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+                        <h:outputText value="#{clientController.nouvelleFiche.adresse}" /> 
+
+
+                        <h:outputText value="Téléphone: " />  
+                        <p:inputText value="#{clientController.nouvelleFiche.telephone}"   
+                                     required="true"
+                                     id="telephone"
+                                     placeholder="Telephone"
+                                     requiredMessage="Le Téléphone est obligatoire">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+                        <h:outputText value="#{clientController.nouvelleFiche.telephone}" /> 
+
+
+
+
+
+                    </h:panelGrid>  
+                    <p:commandButton value="Supprimer" update="@this"  action="#{cc.attrs.controller.supprimerFiche}" />  
+                    <p:commandButton process="@(.ui-panel :input)"  action="#{clientController.save()}" update="@(.ui-panel :input)" value="Enrégistrer" />
+                    <p:commandButton process="@(.ui-panel :input:not(select))" action="#{clientController.save()}" update="@(.ui-panel)" value="Enrégistrer" />
+                    <p:commandButton  action="#{clientController.save()}" update="@this"  value="Enrégistrer" />
+                   
+                    <p:commandButton value="Annuler" type="reset" />  
+
+                </p:panel>  
+            </h:form>
+
+
+
+
+
+                        <h:form id="form_cli">
+                            <p:panel id="panel" header="New User">
+                            <p:panel header="Informations relatives aux Clients" id="panel" class="ui-grid ui-grid-responsive">  
+            
+                                <p:messages id="msgs" />
+            
+                                <h:panelGrid columns="3" cellpadding="5">
+                                    <h:outputText value="Nom : " />  
+                                    <p:inputText value="#{controllerTest.text1}"   
+                                                 required="true"
+                                                 id="nom"
+                                                 placeholder="Nom"
+                                                 requiredMessage="Le Nom est obligatoire">
+                                        <f:validateLength minimum="2" />
+                                    </p:inputText>
+                                    <h:outputText value="#{controllerTest.text1}" /> 
+            
+                                    <h:outputText value="Prénom : " />  
+                                    <p:inputText value="#{controllerTest.text2}"   
+                                                 required="true"
+                                                 id="prenom"
+                                                 placeholder="Prenom"
+                                                 requiredMessage="Le Prénom est obligatoire">
+                                        <f:validateLength minimum="2" />
+                                    </p:inputText>
+                                    <h:outputText value="#{controllerTest.text1}" />
+            
+                                    <h:outputText value="Email : " />  
+                                    <p:inputText value="#{controllerTest.text3}"   
+                                                 required="true"
+                                                 id="email"
+                                                 placeholder="Email"
+                                                 requiredMessage="L'Email est obligatoire">
+                                        <f:validateLength minimum="2" />
+                                    </p:inputText>
+                                    <h:outputText value="#{controllerTest.text3}" />
+            
+                                    <h:outputText value="Adresse : " />  
+                                    <p:inputText value="#{controllerTest.text4}"   
+                                                 required="true"
+                                                 id="adresse"
+                                                 placeholder="Adresse"
+                                                 requiredMessage="L'adresse est obligatoire">
+                                        <f:validateLength minimum="2" />
+                                    </p:inputText>
+                                    <h:outputText value="#{controllerTest.text4}" />
+            
+                                    <h:outputText value="Téléphone : " />  
+                                    <p:inputText value="#{controllerTest.text5}"   
+                                                 required="true"
+                                                 id="telephone"
+                                                 placeholder="Telephone"
+                                                 requiredMessage="Le Téléphone est obligatoire">
+                                        <f:validateLength minimum="2" />
+                                    </p:inputText>
+                                    <h:outputText value="#{controllerTest.text5}" />
+            
+            
+            
+                                                            <p:outputLabel for="firstname" value="Firstname:" />
+                                                            <p:inputText id="firstname" value="#{controllerTest.firstname}" required="true" label="Firstname">
+                                                                <f:validateLength minimum="2" />
+                                                            </p:inputText>
+                                                            <p:message for="firstname" display="icon"  />
+                                    
+                                                            <p:outputLabel for="lastname" value="Lastname:" />
+                                                            <p:inputText id="lastname" value="#{controllerTest.lastname}" label="Lastname" required="true">
+                                                                <f:validateLength minimum="2" />
+                                                                <p:ajax update="msgLastname" event="keyup" />
+                                                            </p:inputText>
+                                                            <p:message for="lastname" id="msgLastname" display="icon" />
+            
+                                </h:panelGrid>
+            
+                                <p:commandButton value="Enrégistrer" update="panel" actionListener="#{controllerTest.save}" icon="ui-icon-check" />
+                            </p:panel>
+                        </h:form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <p:growl id="msg_list" showDetail="true"/>  
+            <h:form  id="form_datacli">
+                <p:panel  id="nomListe">  
+
+                    <p:dataTable id="liste" var="fiche" value="#{clientController.tousLesclients}" 
+                                 class="ui-grid ui-grid-responsive"
+                                 editable="true"
+                                 emptyMessage="Aucun Enregistrement SVP"
+                                 paginator="true" rows="5"  
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                 rowsPerPageTemplate="5,10,15">
+
+
+                        <p:ajax event="rowToggle" listener="#{tableBean.onRowToggle}"  />  
+                        <p:ajax event="rowToggle" listener="#{cc.attrs.controller.onToggleEvent}" />
+                        <f:facet name="header">  
+                            Liste des Clients
+                        </f:facet>  
+
+
+
+
+                        <p:column headerText="Opérations" exportable="false" style="width:49%"   >
+                            <p:spacer width="5"/>
+                            <p:tooltip for="editB" value="Modifier"/>
+                            <p:tooltip for="deleteB" value="Supprimer"/>
+                            <p:tooltip for="profilB" value="Profil"/>
+
+
+                            <p:commandLink    
+                                id="profilB"
+                                process="@this"
+                                action="#{organeController.goProfil()}"
+                                >
+                                <f:setPropertyActionListener value="#{fiche}" target="#{organeController.nouvelleFiche}"/>
+                                <p:graphicImage  library="images" name="edit.gif" />
+                            </p:commandLink>
+                            <p:spacer width="10"/>
+                            <p:commandLink 
+                                id="editB"
+                                process="@this"
+                               
+                                action="#{clientController.action()}">
+
+                                <f:setPropertyActionListener value="#{fiche}" target="#{clientController.nouvelleFiche}"/>
+                                <p:graphicImage  library="images" name="refresh.png" />
+                            </p:commandLink>
+
+
+
+                            <p:spacer width="10"/>
+                            <p:commandLink    
+                                id="deleteB"
+                                process="@this"
+                                action="#{organeController.delete(organeController.nouvelleFiche)}"
+                                >
+                                <f:setPropertyActionListener value="#{fiche}" target="#{organeController.nouvelleFiche}"/>
+                                <p:graphicImage  library="images" name="delete.gif" />
+                            </p:commandLink>
+                            <p:spacer width="5"/>
+                        </p:column>
+
+
+
+                        <p:column style="width:49%" sortBy="occur.id" >  
+                            <f:facet name="header">  
+                                Nom  
+                            </f:facet>  
+                            <h:outputText value="#{fiche.nom}" />  
+                        </p:column>  
+
+                        <p:column style="width:49%">  
+                            <f:facet name="header">  
+                                Prénoms  
+                            </f:facet>  
+                            <h:outputText value="#{fiche.prenom}" />  
+                        </p:column> 
+
+                        <p:column style="width:49%">  
+                            <f:facet name="header">  
+                                Email  
+                            </f:facet>  
+                            <h:outputText value="#{fiche.email}" />  
+                        </p:column> 
+
+
+                        <p:column style="width:49%">  
+                            <f:facet name="header">  
+                                Téléphone  
+                            </f:facet>  
+                            <h:outputText value="#{fiche.telephone}" />  
+                        </p:column> 
+
+
+                                                <p:column style="width:49%">  
+                                                    <h:commandButton value="Supprimer" 
+                                                                     action="#{cc.attrs.controller.supprimerFiche}" />  
+                                                    update = "nomListe"
+                                                </p:column>
+
+                        <f:facet name="footer">
+                            <h:commandLink value="Exporter en Excel">
+                                <p:graphicImage  library="images" name="excel.png" />
+                                <p:dataExporter type="xls" target="dataTable_organe" fileName="organe" pageOnly="false" postProcessor="#{organeController.postProcessXLS}"/>
+                            </h:commandLink>
+
+
+                        </f:facet>
+
+
+                    </p:dataTable>  
+                </p:panel>
+            </h:form>
+        </h:panelGrid>
+
+
+
+    </cc:implementation>
+</html>
+
+ update=":f-client:form_cli:telephone :f-client:form_cli:adresse :f-client:form_cli:email :f-client:form_cli:nom :f-client:form_cli:prenom "
+
+update=":f-client:form_cli:adresse :f-client:form_cli:email :f-client:form_cli:telephone :f-client:form_cli:nom :f-client:form_cli:prenom"
+
+
+                        <h:outputText value="Adresse : " />  
+                         <p:inputText id="txt1" value="#{controllerTest.text1}" required="true" label="Text 1">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+                        <p:message for="txt1" />
+                        <h:outputText value="#{controllerTest.text1}" /> 
+
+
+                        <h:outputText value="Email : " />  
+                        <p:inputText value="#{cc.attrs.row.mail}"   
+                                     required="true"
+                                     id="email"
+                                     placeholder="Email"
+                                     requiredMessage="L'Email est obligatoire"/>  
+                        <p:message for="email" />  
+
+                        <h:outputText value="Téléphone : " />  
+                        <p:inputText value="#{cc.attrs.row.tel}"   
+                                     required="true"
+                                     id="telephone"
+                                     placeholder="Telephone"
+                                     requiredMessage="Le Téléphone est obligatoire"/>  
+                        <p:message for="telephone" />  
+
+
+
+
+
+            <h:form>
+                <p:panel id="panel" header="Informations relatives aux clients" class="ui-grid ui-grid-responsive"> 
+                    <p:messages id="messages" />
+
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputText value="Téléphone:"  /> 
+                        <p:inputText id="txt1" value="#{controllerTest.text1}" required="true" label="Text 1">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+                        <p:message for="txt1" />
+                        <h:outputText value="#{controllerTest.text1}" />
+
+                        <h:outputText value="Téléphone:"  /> 
+                        <p:inputText id="txt2" value="#{controllerTest.text2}" required="true" label="Text 2" />
+                        <p:message for="txt2" />
+                        <h:outputText value="#{controllerTest.text2}" />
+
+                        <h:outputText value="Téléphone:"  /> 
+                        <h:selectOneMenu id="txt3" value="#{controllerTest.text3}" required="true" label="Text 3">
+                            <f:selectItem itemLabel="Select One" itemValue="" noSelectionOption="true" />
+                            <f:selectItem itemLabel="Option 1" itemValue="1" />
+                            <f:selectItem itemLabel="Option 2" itemValue="2" />
+                            <f:selectItem itemLabel="Option 3" itemValue="3" />
+                        </h:selectOneMenu>
+                        <p:message for="txt3" />
+                        <h:outputText value="#{controllerTest.text3}" />
+                    </h:panelGrid>
+
+
+                    <h:panelGrid columns="2">
+                        <p:commandButton process="@(.ui-panel :input)" update="@(.ui-panel)" value="Enrégistrer" />
+                        <p:commandButton process="@(.ui-panel :input:not(select))" update="@(.ui-panel)" value="Inputs Except Select" />
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+-->
+
+

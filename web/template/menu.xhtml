@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+
+        <h:form> 
+
+            <p:menu>
+                <p:submenu label="PARAMETRES">
+                    <p:menuitem value="Client"   immediate="true" url="/views/client.jsf?faces-redirect=true" icon="ui-icon-disk" />
+                    <p:menuitem value="Produit" immediate="true"   url="/views/produit.jsf?faces-redirect=true"  icon="ui-icon-arrowrefresh-1-w"/>
+                </p:submenu>
+                <p:submenu label="OPERATIONS">
+                    <p:menuitem value="Achat"   immediate="true"   url="/views/achat.jsf?faces-redirect=true" icon="ui-icon-disk" />
+                    <p:menuitem value="Vente" immediate="true"  url="/views/vente.jsf?faces-redirect=true"  icon="ui-icon-arrowrefresh-1-w"/>
+               
+                    <p:menuitem value="Delete"   ajax="false" icon="ui-icon-close"/>
+                </p:submenu>
+                <p:submenu label="ETATS">
+                    <p:menuitem value="External" url="http://www.primefaces.org" icon="ui-icon-home"/>
+                    <p:menuitem value="Internal"  icon="ui-icon-star"/>   
+
+                </p:submenu>
+            </p:menu>
+
+        </h:form>
+
+
+    </ui:composition>
+
+</html>

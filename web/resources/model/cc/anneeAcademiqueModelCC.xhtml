@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="row" required="true"/>
+        <cc:attribute  name="action" method-signature="void f1()"/>
+        <cc:attribute name="update" required="true"/>
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <br/><br/>
+            <div class="form-group ">
+                <label for="" class=" col-sm-offset-0 col-sm-6 control-label">#{bundle.code}  : </label>
+                <div class="col-sm-offset-6 col-sm-0"><input type="text"  jsf:id="code" class="form-control" jsf:maxlength="4" jsf:requiredMessage="Le code est obligatoire" jsf:required="true" jsf:value="#{cc.attrs.row.id}" placeholder="Code ....">
+                        <f:validateRegex pattern="[1-9][0-9][0-9][0-9]"/>
+                    </input>
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <label for="" class="col-sm-offset-0 col-sm-6 control-label">#{bundle.dateDebut}  : </label>
+                <div class="col-sm-offset-6 col-sm-0">
+                    <p:calendar
+                        id="dateD"
+                        value="#{cc.attrs.row.dateDebut}"
+                        pattern="dd/MM/yyyy" timeZone="#{timeZone}"
+                        required="true"
+                        requiredMessage="La date est obligatoire et doit �tre au format dd/MM/yyyy.">
+                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="#{timeZone}"/>
+                    </p:calendar>
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <label for="" class="col-sm-offset-0 col-sm-6 control-label">#{bundle.dateFin}  : </label>
+                <div class="col-sm-offset-6 col-sm-0">
+                    <p:calendar
+                        id="dateF"
+                        value="#{cc.attrs.row.dateFin}"
+                        pattern="dd/MM/yyyy" timeZone="#{timeZone}"
+                        required="true"
+                        requiredMessage="La date est obligatoire et doit �tre au format dd/MM/yyyy.">
+                        <f:convertDateTime type="date" pattern="dd/MM/yyyy"  timeZone="#{timeZone}"/>
+                    </p:calendar>
+                </div>
+            </div>
+
+        <div class="form-group ">
+            <label for="exampleInputEmail1" class="col-sm-offset-0 col-sm-6 control-label">#{bundle.indicateurRepartition}  : </label>
+            <div class="col-sm-offset-6 col-sm-0">
+                <p:selectOneMenu
+                    id="cleRep"
+                    required="true"
+                    var="reC"
+                    requiredMessage="Vous devez choisir un indicateur."
+                    converter="convertisseurGenerique"
+                    converterMessage="Echec de la conversion"
+                    maxlength="40"
+                    value="#{cc.attrs.row.indicateurRepartition}"
+                    
+                    >
+                    <f:selectItem itemLabel="--- Sélectionner un indicateur ---" itemValue=""/>
+                    <f:selectItems var="ind" value="#{anneeAcademiqueController.tousLesIndicateursRepartition}" itemValue="#{ind}" itemLabel="#{ind.libelle}"/>
+                    <p:column>#{reC.id}</p:column>
+                    <p:column>#{reC.libelle}</p:column>
+                </p:selectOneMenu>
+            </div>
+        </div>
+            <div class="col-sm-offset-9 col-sm-10">
+                <p:commandButton value="Enregistrer" update="#{cc.attrs.update} code dateF dateD cleRep"  action="#{cc.attrs.action}"  styleClass="btn btn-primary"/>
+            </div>
+
+        
+    </cc:implementation>
+</html>

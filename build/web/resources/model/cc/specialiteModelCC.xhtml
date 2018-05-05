@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        
+        <cc:attribute  name="action" method-signature="void f1()"/>
+        <cc:attribute name="update" required="true"/>
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+
+
+        <div class="form-group ">
+            <label for="exampleInputEmail1" class="col-sm-2 control-label">Etablissement  : </label>
+            <div class="col-sm-10">
+                <p:selectOneMenu
+                    id="cleRep"
+                    required="true"
+                    var="reC"
+                    requiredMessage="Vous devez choisir un établissement."              
+                    maxlength="40"
+                    value="#{statistiqueController.etablissement}"
+
+                    >
+                    <f:selectItem itemLabel="--- Sélectionner un établissement ---" itemValue=""/>
+                    <f:selectItems var="etab" value="#{statistiqueController.tousLesEtablissements}" itemValue="#{etab}" itemLabel="#{etab}"/>
+                    <p:ajax update="special"/>
+                </p:selectOneMenu>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label for="exampleInputEmail1" class="col-sm-2 control-label">Spécialité  : </label>
+            <div class="col-sm-10">
+                <p:selectOneMenu
+                    id="special"
+                    required="true"
+                    var="reC"
+                    requiredMessage="Vous devez choisir une spécialité."              
+                    maxlength="40"
+                    value="#{statistiqueController.specialite}"
+                    
+                    >
+                    <f:selectItem itemLabel="--- Sélectionner une spécialité ---" itemValue=""/>
+                    <f:selectItems var="spec" value="#{statistiqueController.specialitesViaEtablissement}" itemValue="#{spec}" itemLabel="#{spec}"/>
+                    
+                </p:selectOneMenu>
+            </div>
+        </div>
+        <div class="col-sm-offset-2 col-sm-10">
+            <p:commandButton value="Visualiser" update="#{cc.attrs.update} cleRep"  action="#{cc.attrs.action}"  styleClass="btn btn-default"/>
+        </div>
+
+
+    </cc:implementation>
+</html>

@@ -1,0 +1,145 @@
+<!--<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Manager Stock</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true" class="ui-grid ui-grid-responsive">
+
+                <p:layoutUnit class="ui-grid ui-grid-responsive" position="north" size="78" resizable="true" closable="true" collapsible="true">
+                    <h:form>    
+                        <p:growl id="messages" showDetail="true" />
+
+                        <p:toolbar >
+                            <f:facet name="left">
+                                                                <p:commandButton type="button" value="New" icon="ui-icon-document" />
+                                
+                                                                <p:commandButton type="button" value="Open" icon="ui-icon-folder-open" />
+                                
+                                                                <span class="ui-separator">
+                                                                    <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                                                </span>
+                                
+                                                                <p:commandButton type="button" title="Save" icon="ui-icon-disk" />
+                                                                <p:commandButton type="button" title="Delete" icon="ui-icon-trash" />
+                                                                <p:commandButton type="button" title="Print" icon="ui-icon-print" />
+
+                                <p:menuButton value="Paramètres">
+                                    <p:menuitem value="Client" actionListener="#{toolbarView.save}" update="messages" icon="ui-icon-disk" />
+                                    <p:menuitem value="Produit" actionListener="#{toolbarView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
+
+                                </p:menuButton>
+
+                                <p:menuButton value="Opérations">
+                                    <p:menuitem value="Achat" actionListener="#{toolbarView.save}" update="messages" icon="ui-icon-disk" />
+                                    <p:menuitem value="Vente" actionListener="#{toolbarView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
+                                </p:menuButton>
+
+                                <p:menuButton value="Etats">
+                                    <p:menuitem value="Liste des Produits" actionListener="#{toolbarView.save}" update="messages" icon="ui-icon-disk" />
+                                    <p:menuitem value="Liste des Produits par famille" actionListener="#{toolbarView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
+                                    <p:menuitem value="Liste des ?" actionListener="#{toolbarView.delete}" ajax="false" icon="ui-icon-close" />
+                                </p:menuButton>
+                            </f:facet>
+
+                            <f:facet name="right">
+                                <p:menuButton value="Options">
+                                    <p:menuitem value="Save" actionListener="#{toolbarView.save}" update="messages" icon="ui-icon-disk" />
+                                    <p:menuitem value="Update" actionListener="#{toolbarView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
+                                    <p:menuitem value="Delete" actionListener="#{toolbarView.delete}" ajax="false" icon="ui-icon-close" />
+                                    <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink" />
+                                </p:menuButton>
+                            </f:facet>
+
+                        </p:toolbar>
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit class="ui-grid ui-grid-responsive" position="south" size="60" closable="true" collapsible="true">
+                    <center>&copy;Gérard Sylvanus TOLODE</center>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="242" header="Menu" collapsible="true">
+                    <h:form> 
+
+                        <p:menu>
+                            <p:submenu label="PARAMETRES">
+                                <p:menuitem value="Client"   action="/views/produit?faces-redirect=true" icon="ui-icon-disk" />
+                                <p:menuitem value="Produit"   icon="ui-icon-arrowrefresh-1-w"/>
+                            </p:submenu>
+                            <p:submenu label="OPERATIONS">
+                                <p:menuitem value="Delete"   ajax="false" icon="ui-icon-close"/>
+                            </p:submenu>
+                            <p:submenu label="ETATS">
+                                <p:menuitem value="External" url="http://www.primefaces.org" icon="ui-icon-home"/>
+                                <p:menuitem value="Internal"  icon="ui-icon-star"/>   
+
+                            </p:submenu>
+                        </p:menu>
+
+                    </h:form>
+
+
+                </p:layoutUnit>
+
+                <p:layoutUnit class="ui-grid ui-grid-responsive" position="center">
+
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/template/default.xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+
+
+    <ui:define name="header" >
+        <ui:include src="template/header.xhtml" />
+    </ui:define>
+
+    <ui:define name="leftMenu">
+        <ui:include src="template/menu.xhtml" />
+    </ui:define>
+
+
+    <ui:define name="content">  
+
+
+
+
+
+
+
+
+    </ui:define>
+    <ui:define name="footer">
+        <ui:include src="template/footer.xhtml"/>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="row" required="true"/>
+        <cc:attribute  name="action" method-signature="void f1()"/>
+        <cc:attribute name="update" required="true"/>
+        
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+  <h:outputStylesheet name="css/font-awesome.css" />
+        <h:outputStylesheet name="bootstrap/css/bootstrap.css" />
+        <h:outputStylesheet name="css/dashboard.css" />
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />-->
+        <h:outputScript name="js/jquery.min.js" />
+        <h:outputScript name="bootstrap/js/bootstrap.js" />
+        
+      
+
+         
+           
+            <div class="form-group ">
+                <label for="exampleInputEmail1" class="col-sm-2 control-label">Code  : </label>
+                <div class="col-sm-10"><input type="text"  jsf:id="code" class="form-control" jsf:requiredMessage="Le code est obligatoire" jsf:required="true" jsf:value="#{cc.attrs.row.id}" placeholder="Code ...."/></div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1" class="col-sm-2 control-label" >Libellé : </label>
+                <div class="col-sm-10"><input type="text" jsf:id="libelle" class="form-control" jsf:requiredMessage="Le libellé est obligatoire" jsf:required="true"  jsf:value="#{cc.attrs.row.libelle}"  placeholder="Libellé ...."/></div>
+            </div>
+            <div class="col-sm-offset-2 col-sm-10">
+                <p:commandButton value="Enregistrer" update="#{cc.attrs.update} libelle code "  action="#{cc.attrs.action}"  styleClass="btn btn-success"/>
+            </div>
+       
+        
+   </cc:implementation>
+</html>

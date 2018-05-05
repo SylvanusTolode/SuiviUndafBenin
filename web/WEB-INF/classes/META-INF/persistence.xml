@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="managerPU" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>java:app/gestionStockDB</jta-data-source>
+    <!--    <class>uac.uac.net.managerstock.model.GestionstockClient</class>
+    <class>uacuac.net.managerstock.model.GestionstockFacture</class>
+    <class>uac.uac.net.managerstock.model.GestionstockLigneCommande</class>
+    <class>uacuac.net.managerstock.model.GestionstockProduit</class>-->
+    <mapping-file>META-INF/eclipselink-orm.xml</mapping-file>
+    <!--<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>-->
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="eclipselink.target-server" value="SunAS9"/>
+      <property name="eclipselink.target-database" value="MySQL"/>
+      <property name="eclipselink.weaving" value="static"/>
+      <property name="eclipselink.logging.logger" value="org.eclipse.persistence.logging.DefaultSessionLog"/>
+      <property name="eclipselink.logging.level" value="INFO"/>
+    </properties>
+  </persistence-unit>
+  <!--    <persistence-unit name="okapiCollegePersistenceUnit" transaction-type="JTA">
+        <description>okapiCollege</description>
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>jdbc/okapiCollegeDB</jta-data-source>
+        <mapping-file>META-INF/orm-okapi.xml</mapping-file>
+        <jar-file>my-additional-jar.jar</jar-file>
+         Enables auto discovery of persistent classes, 
+         otherwise they must be listed using <class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+        <properties>
+            <property name="eclipselink.weaving" value="static"/>
+            <property name="eclipselink.target-server" value="SunAS9" />
+            <property name="eclipselink.target-database" value="MySQL"/>
+            <property name="eclipselink.session.customizer" value="net.bilima.okapiUtils.utils.UUIDSequence"/>
+      
+        </properties>
+
+    </persistence-unit>-->
+</persistence>

@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="row" required="true"/>
+        <cc:attribute  name="action" method-signature="void f1()"/>
+        <cc:attribute name="update" required="true"/>
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <!--Aujourd'hui nous sommes le :<br/><br/>-->
+        <center><blockquote><u><h4>
+                        <p:clock pattern="dd-MM-yyyy HH:mm:ss" mode="server" /> </h4></u></blockquote></center>
+
+
+
+        <h:panelGrid columns="3" cellpadding="5" id="zz"  > 
+            <!--            <h:form id="nomnclature">
+                            <p:panel header="Test" id="nomen" class="ui-grid ui-grid-responsive">  
+                                <p:focus context="nomen"/>  
+                                <p:messages />  
+                                <h:panelGrid columns="3" cellpadding="5">  
+            
+                                    <h:outputText value="Code : " />  
+                                    <p:inputText value="#{cc.attrs.row.id}"   
+                                                 required="true"
+                                                 id="code"
+                                                 requiredMessage="Le Code est obligatoire"/>  
+                                    <p:message for="code" />  
+            
+            
+                                    <h:outputText value="Libelle" />  
+                                    <p:inputText value="#{cc.attrs.row.libelle}"
+                                                 id="lib"
+                                                 required ="true"
+                                                 requiredMessage="Le libelle est obligatoire"/>
+                                    <p:message for="lib" />  
+            
+            
+                                    <p:commandButton value="Enregistrer" update="nomen "   action="#{cc.attrs.action}"/> 
+                                    nomListe
+                                    <p:commandButton value="Annuler" type="reset" />  
+                                </h:panelGrid>  
+                            </p:panel>  
+                        </h:form>-->
+
+
+
+            <h:form id="te">
+                <p:panel id="panel" header="Produit">
+
+                    <p:messages id="msgs" />
+
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <!--                        <p:outputLabel for="firstname" value="Firstname:" />
+                                                <p:inputText id="firstname" value="#{produitController.fiche.id}" required="true" label="Firstname">
+                                                    <f:validateLength minimum="2" />
+                                                </p:inputText>
+                                                <p:message for="firstname" display="icon" />
+                        
+                                                <p:outputLabel for="lastname" value="Lastname:" />
+                                                <p:inputText id="lastname" value="#{produitController.fiche.libelle}" label="Lastname" required="true">
+                                                    <f:validateLength minimum="2" />
+                                                    <p:ajax update="msgLastname" event="keyup" />
+                                                </p:inputText>
+                                                <p:message for="lastname" id="msgLastname" display="icon" />-->
+
+
+
+                        <h:outputText value="Code :" />  
+                        <p:inputText value="#{produitControlleur.phiche.id}"   
+                                     required="true"
+                                     id="code"
+                                     placeholder="Code"
+                                     requiredMessage="Le Code est obligatoire">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+                        <p:message for="code" id="msgCode" display="icon" />
+                        <h:outputText value="#{produitControlleur.phiche.id}" /> 
+
+                        <h:outputText value="Libellé:" />  
+                        <p:inputText value="#{produitControlleur.phiche.libelle}"   
+                                     required="true"
+                                     id="libelle"
+                                     placeholder="Libelle"
+                                     requiredMessage="Le Libellé est obligatoire">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+                        <p:message for="libelle" id="msgLibelle" display="icon" />
+                        <h:outputText value="#{produitControlleur.phiche.libelle}" /> 
+
+
+                    </h:panelGrid>
+                    <!--<p:commandButton value="Enregistrer"   action="#{cc.attrs.action}"  styleClass="btn btn-primary"/>-->
+                    <p:separator/>
+
+                    <p:commandButton value="Enrégistrer" update="panel" actionListener="#{produitControlleur.sauveProduit()}" icon="ui-icon-check" />
+                    <p:commandButton value="Annuler" update="panel" actionListener="#{produitControlleur.initialize()}" icon="ui-icon-check" />
+                 
+                </p:panel>
+            </h:form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!--<p:growl id="msg_list" showDetail="true"/>-->  
+            <!--<h:form >-->
+            <p:panel  id="nomListe">  
+
+                <p:dataTable id="liste" var="occur" value="#{produitControlleur.getTousLesProduits()}" 
+                             class="ui-grid ui-grid-responsive"
+                             editable="true"
+                             emptyMessage="Aucun Enregistrement SVP"
+                             paginator="true" rows="8"  
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                             rowsPerPageTemplate="5,10,15">
+
+
+                                <!--<p:ajax event="rowToggle" listener="#{tableBean.onRowToggle}"  />-->  
+                    <p:ajax event="rowToggle" listener="#{cc.attrs.controller.onToggleEvent}" />
+                    <f:facet name="header">  
+                        Liste des Produits
+                    </f:facet>  
+
+
+
+
+                    <p:column headerText="Opérations" exportable="false" style="width: 100px" >
+                        <p:spacer width="5"/>
+                        <p:tooltip for="editB" value="Modifier"/>
+                        <p:tooltip for="deleteB" value="Supprimer"/>
+                        <!--<p:tooltip for="profilB" value="Profil"/>-->
+
+
+                        <!--                        <p:commandLink    
+                                                    id="profilB"
+                                                    process="@this"
+                                                    action="#{organeController.goProfil()}"
+                                                    >
+                                                    <f:setPropertyActionListener value="#{fiche}" target="#{organeController.nouvelleFiche}"/>
+                                                    <p:graphicImage  library="images" name="edit.gif" />
+                                                </p:commandLink>-->
+                        <p:spacer width="10"/>
+                        <p:commandLink 
+                            id="editB"
+                            update=":form_organe:f-organe:te:code :form_organe:f-organe:te:libelle"
+                            process="@this"                             
+                            action="#{produitControlleur.action()}">
+                            <f:setPropertyActionListener value="#{occur}" target="#{produitControlleur.phiche}"/>
+                            <p:graphicImage  library="images" name="refresh.png" />
+                        </p:commandLink>
+
+                        <p:spacer width="10"/>
+                        <p:commandLink    
+                            id="deleteB"
+                            process="@this"
+                            action="#{organeController.delete(organeController.nouvelleFiche)}" >
+                            <f:setPropertyActionListener value="#{occur}" target="#{produitControlleur.phiche}"/>
+                            <p:graphicImage  library="images" name="delete.gif" />
+                        </p:commandLink>
+                        <p:spacer width="5"/>
+                    </p:column>
+
+
+
+                    <p:column style="width:49%" sortBy="occur.id" filterBy="#{occur.id}" >  
+                        <f:facet name="header">  
+                            Code  
+                        </f:facet>  
+                        <h:outputText value="#{occur.id}" />  
+                    </p:column>  
+
+                    <p:column style="width:49%" sortBy="occur.libelle" filterBy="#{occur.libelle}">  
+                        <f:facet name="header">  
+                            Libelle  
+                        </f:facet>  
+                        <h:outputText value="#{occur.libelle}" />  
+                    </p:column> 
+
+
+
+                    <f:facet name="footer">
+                        <h:commandLink value="Exporter en Excel">
+                            <p:graphicImage  library="images" name="excel.png" />
+                            <p:dataExporter type="xls" target="dataTable_organe" fileName="organe" pageOnly="false" postProcessor="#{organeController.postProcessXLS}"/>
+                        </h:commandLink>
+
+
+                    </f:facet>
+
+
+                </p:dataTable>  
+            </p:panel>
+            <!--</h:form>-->
+        </h:panelGrid>
+
+
+
+    </cc:implementation>
+</html>
+
+
+
+<!--update=":form_organe:f-organe:code :form_organe:f-organe:libelle"-->

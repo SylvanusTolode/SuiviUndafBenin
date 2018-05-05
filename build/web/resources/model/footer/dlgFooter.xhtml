@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="saveAction"  method-signature="String f1()"/>
+        <cc:attribute name="newAction" method-signature="String f2()"/>
+
+        <cc:attribute name="update" required="true"/>
+        <cc:implementation>
+            <div class="col-sm-offset-2 col-sm-10">
+                <p:commandButton value="#{bundle.enregistrer}" update="#{cc.attrs.update}" action="#{cc.attrs.saveAction}"  styleClass="btn btn-primary"/>
+           
+            <p:spacer width="20"/>
+
+            
+                <p:commandButton value="#{bundle.nouveau}" update="#{cc.attrs.update}"  action="#{cc.attrs.newAction}" styleClass="btn btn-default"/>
+            
+            <p:spacer width="15"/>
+            
+                <a href="" ><i class="fa fa-close"/></a>
+            </div>
+        </cc:implementation>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+    </cc:implementation>
+</html>

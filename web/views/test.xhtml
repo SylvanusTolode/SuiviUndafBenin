@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+
+      xmlns:anAc="http://java.sun.com/jsf/composite/model/cc"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+
+
+    <body>
+
+        <ui:composition template="./../template/default.xhtml">
+
+            <ui:define name="header">
+                <ui:include src="./../template/header.xhtml" />
+            </ui:define>
+
+            <ui:define name="leftMenu">
+                <ui:include src="./../template/menu.xhtml" />
+            </ui:define>
+
+
+            <ui:define name="content">
+
+
+                <center><blockquote><u><h4> Informations relatives aux Produits</h4></u></blockquote></center>
+
+
+                <h:form class="form-horizontal" id="form_organe">
+                    <p:growl id="msg_organe" showDetail="true" showSummary="true" /> 
+                   
+                        <anAc:testModelCC
+                            id="f-organe"
+                            update=":form_organe:dataTable_organe :form_organe:msg_organe"
+                            row="#{organeController.nouvelleFiche}"
+                            action="#{organeController.sauvegarderNouvelleFicheAction()}"
+                            />
+                    
+
+                </h:form>
+
+            </ui:define>
+
+            <ui:define name="footer">
+                <ui:include src="./../template/footer.xhtml" />
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+

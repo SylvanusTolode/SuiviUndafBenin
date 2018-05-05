@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Cars</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <p:dataTable id="liste" var="occur" value="#{clientController.tousLesclients}" 
+                     class="ui-grid ui-grid-responsive"
+                     editable="true"
+                     emptyMessage="Aucun Enregistrement SVP"
+                     paginator="true" rows="5"  
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                     rowsPerPageTemplate="5,10,15">
+
+
+            <p:ajax event="rowToggle" listener="#{tableBean.onRowToggle}"  />  
+            <p:ajax event="rowToggle" listener="#{cc.attrs.controller.onToggleEvent}" />
+            <f:facet name="header">  
+                Liste des Clients
+            </f:facet>  
+
+
+
+
+            <p:column headerText="Opérations" exportable="false" style="width:49%"   >
+                <p:spacer width="5"/>
+                <p:tooltip for="editB" value="Modifier"/>
+                <p:tooltip for="deleteB" value="Supprimer"/>
+                <p:tooltip for="profilB" value="Profil"/>
+
+
+           
+                <p:spacer width="10"/>
+                <p:commandLink 
+                    id="editB"
+                    process="@this"
+
+                    action="#{clientController.action()}">
+
+                    <f:setPropertyActionListener value="#{fiche}" target="#{clientController.nouvelleFiche}"/>
+                    <p:graphicImage  library="images" name="refresh.png" />
+                </p:commandLink>
+
+
+
+                <p:spacer width="10"/>
+                <p:commandLink    
+                    id="deleteB"
+                    process="@this"
+                    action="#{organeController.delete(organeController.nouvelleFiche)}"
+                    >
+                    <f:setPropertyActionListener value="#{fiche}" target="#{organeController.nouvelleFiche}"/>
+                    <p:graphicImage  library="images" name="delete.gif" />
+                </p:commandLink>
+                <p:spacer width="5"/>
+            </p:column>
+
+
+
+            <p:column style="width:49%" sortBy="occur.nom" filterBy="#{occur.nom}" >  
+                <f:facet name="header">  
+                    Nom  
+                </f:facet>  
+                <h:outputText value="#{occur.nom}" />  
+            </p:column>  
+
+            <p:column style="width:49%" sortBy="occur.prenom" filterBy="#{occur.prenom}">  
+                <f:facet name="header">  
+                    Prénoms  
+                </f:facet>  
+                <h:outputText value="#{occur.prenom}" />  
+            </p:column> 
+
+            <p:column style="width:49%" sortBy="occur.email" filterBy="#{occur.email}">  
+                <f:facet name="header">  
+                    Email  
+                </f:facet>  
+                <h:outputText value="#{occur.email}" />  
+            </p:column> 
+
+
+            <p:column style="width:49%" sortBy="occur.telephoe" filterBy="#{occur.telephone}">  
+                <f:facet name="header">  
+                    Téléphone  
+                </f:facet>  
+                <h:outputText value="#{occur.telephone}" />  
+            </p:column> 
+
+
+
+            <f:facet name="footer">
+                <h:commandLink value="Exporter en Excel">
+                    <p:graphicImage  library="images" name="excel.png" />
+                    <p:dataExporter type="xls" target="dataTable_organe" fileName="organe" pageOnly="false" postProcessor="#{organeController.postProcessXLS}"/>
+                </h:commandLink>
+
+
+            </f:facet>
+
+
+        </p:dataTable>  
+
+    </h:body>
+
+</html>

@@ -1,0 +1,158 @@
+ 
+<entity-mappings
+    xmlns="http://java.sun.com/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_0.xsd"
+    version="2.0">
+
+    <persistence-unit-metadata>
+        <!--
+            <xml-mapping-metadata-complete/>
+            If specified, the complete set of mapping metadata for the persistence unit is contained in the XML mapping files
+        -->
+        <persistence-unit-defaults>
+            <access>FIELD</access>
+        </persistence-unit-defaults>
+    </persistence-unit-metadata>
+
+
+    <!--Superclass BaseBeanEntite mapping definition : each entity class inherit this definition and may override some-->
+    <mapped-superclass  class="uac.net.managerstock.model.parent.BaseBeanEntite">
+        <entity-listeners>
+            <entity-listener class="uac.net.managerstock.model.listeners.Callback">
+                <pre-persist method-name="prePersistAction"/>
+                <post-persist method-name="postPersistAction"/>
+                <pre-remove method-name="preRemoveAction"/>
+                <post-remove method-name="postRemoveAction"/>
+                <pre-update method-name="preUpdateAction"/>
+                <post-update method-name="postUpdateAction"/>
+            </entity-listener>
+        </entity-listeners>
+        <attributes>
+            <id name="id">
+                <column name="id" length="32" nullable="false"/>
+                <generated-value   generator="generator"/>
+            </id>
+
+            <basic name="encodeur">
+                <column name="encodeur" length="80"/>
+            </basic>
+            <basic name="dateModif">
+                <column name="date_modif" nullable="false"/>
+                <temporal>DATE</temporal>
+            </basic>
+            <version name="version">
+                <column name="version" column-definition="long" nullable="false"/>
+            </version>
+        </attributes>
+    </mapped-superclass>
+   
+    
+    <entity  class="uac.net.managerstock.model.GestionstockProduit">
+
+        <table name="gestionstock_produit"/>
+        
+        <attribute-override name="id">
+            <column name="code" length="80"/>
+        </attribute-override>
+
+        <attributes>          
+           
+            <basic name="libelle">
+                <column name="libelle" nullable="false" />       
+            </basic>
+            <one-to-many name="commanders" mapped-by="produit">
+                <cascade>
+                    <cascade-all/>
+                </cascade>                
+            </one-to-many>                    
+        </attributes>        
+    </entity>
+
+
+    <entity class="uac.net.managerstock.model.GestionstockClient">
+        <table name="gestionstock_client"/>
+         <attribute-override name="id">
+            <column name="code" length="80"/>
+        </attribute-override>
+    
+        <attributes>
+            <basic name="nom">
+                <column  name="nom_client" length="80" nullable="false" />
+            </basic>
+            <basic name="prenom">
+                <column name="prenom_client" length="80" nullable="false" />
+            </basic>
+            <basic name="telephone">
+                <column name="telephone" length="17" nullable="false" />            
+            </basic> 
+             <basic name="adresse">
+                <column name="adresse" length="17" nullable="false" />            
+            </basic> 
+            <basic name="sexe">
+                <column name="sexe" nullable="false" length="10"/>
+            </basic>
+            <basic name="email">
+                <column name="site_web" nullable="false" length="80"/>
+            </basic>
+        
+            <one-to-many name="factures" mapped-by="client">
+                <cascade>
+                    <cascade-all/>
+                </cascade>                
+            </one-to-many>  
+        </attributes>
+    
+    </entity>
+     
+    <entity class="uac.net.managerstock.model.GestionstockFacture">
+        <table name="gestionstock_facture"/>
+        
+        <attribute-override name="id">
+            <column name="num_facture" length="20"/>
+        </attribute-override>
+        
+        <attributes>
+            <basic name="dateFacture">
+                <column name="date_facture" nullable="false" />
+                <temporal>DATE</temporal>                
+            </basic>
+            
+            <many-to-one  name="client" fetch="EAGER">
+                <join-column name="client" referenced-column-name="id" nullable="false" />                
+            </many-to-one>
+                        
+            <one-to-many name="commanders" mapped-by="facture">
+                <cascade>
+                    <cascade-all/>
+                </cascade>                
+            </one-to-many>
+            
+        </attributes>
+    </entity>
+    
+    <entity class="uac.net.managerstock.model.GestionstockLigneCommande">
+        <table name="gestionstock_ligne_commande">
+            <unique-constraint>
+                <column-name>produit</column-name>
+                <column-name>facture</column-name>
+            </unique-constraint>
+        </table>
+        
+        <attributes>
+            <basic name="quantiteCommande">
+                <column name="quantite_commande" column-definition="INT8" length="10"/>
+            </basic>
+            
+            <many-to-one name="facture" fetch="EAGER">
+                <join-column name="facture" referenced-column-name="num_facture"/>
+            </many-to-one>
+            
+            <many-to-one name="produit" fetch="EAGER">
+                <join-column name="produit" referenced-column-name="code"/>
+            </many-to-one>
+        </attributes>
+        
+    </entity>
+    
+</entity-mappings>
